@@ -1,0 +1,207 @@
+# EEC4400 Assignment (Sem 1 AY25/26)
+## 1 Exploring Reinforcement Learning: Q-Learning, Naïve DQN, DQN and DDQN for Cart-Pole
+Reinforcement Learning (RL) is a fundamental branch of machine learning where agents learn to make sequential decisions by interacting with an environment. Unlike supervised learning which relies on labelled data, RL agents improve their performance through trial and error, receiving rewards based on their actions. One of the widely used environments for testing RL algorithms is **Cart-Pole**—a classic control problem that aims to balance a pole on a moving cart by applying left or right forces.
+
+In deep reinforcement learning (DRL), neural networks (NNs) are used to approximate or store key components such as the Q-values in Q-Learning. In this assignment, students will implement and explore four DRL approaches (referred to as the "DRL algorithms") to solve the Cart-Pole environment:
+1. **Q-Learning with Neural Network (Q-Network)**: A direct application of Q-Learning, where a neural network approximates Q-values without a replay buffer or target network.
+2. **Naïve DQN (Single Network)**: A baseline approach using a single neural network for both selecting and evaluating actions.
+3. **DQN (with Target Network)**: The standard DQN approach (see [https://arxiv.org/abs/1312.5602](https://arxiv.org/abs/1312.5602)) that features a periodically updated target network to stabilize training.
+4. **Double DQN (DDQN)**: An enhanced method that addresses overestimation bias by decoupling action selection from action evaluation (see [https://arxiv.org/abs/1509.06461](https://arxiv.org/abs/1509.06461)).
+
+Through this assignment, students will gain hands-on experience in implementing different DRL techniques, compare their strengths and limitations, and understand how different hyperparameters impact the DRL agent’s performance in sequential decision-making tasks.
+
+
+## 2 Platform
+To streamline implementation and simplify grading, students are required to use a **Jupyter notebook** to implement the DRL algorithms. A skeleton code notebook file is provided—students must use this file to complete the assignment by following the guidance within it. Some functional components of the assignment are already coded, and students need to build on these to finish the task.
+
+
+## 3 Program Implementation
+This section outlines the structure of the skeleton notebook and highlights the parts students need to implement.
+
+> **Note**: The use of reinforcement learning libraries (e.g., stable baselines, RLlib) is **not allowed** for this assignment.
+
+
+### 3.1 Background – [Full Code Provided]
+This section introduces the Cart-Pole environment and guides students through basic Gymnasium operations. Students should study the code to familiarize themselves with the environment before implementing the DRL algorithms.
+
+
+### 3.2 Configuring TensorBoard – [Full Code Provided]
+This section involves creating a log directory (`eec4400_logs`) to store training runs of each algorithm, enabling visualization in TensorBoard.
+
+
+### 3.3 Training and Evaluating DRL Agents
+Each student is responsible for implementing and training one of the four DRL algorithms, as assigned below:
+- Q-Network: Student 1
+- Naïve DQN: Student 2
+- DQN: Student 3
+- DDQN: Student 4
+
+The general workflow for training and evaluating each DRL algorithm follows these steps:
+1. Initialize baseline hyperparameters (see Section 3.5).
+2. Construct the neural network + [**write code**].
+3. Implement, train, and evaluate the four DRL agents (see Section 3.4) + [**write code**].
+4. Integrate TensorBoard to track training progress.
+5. Compute and plot the moving average training reward (with `window_size = 20`) + [Student 1: write code].
+6. Compute and plot the evaluation reward mean and variance per episode + [Student 1: write code].
+7. Track and report the average training time per episode.
+8. Repeat steps 2, 3, 5, 6, 7 for alternative hyperparameters (see Section 3.5).
+
+> **Collaboration Requirement**: All four students must discuss and understand the similarities and differences between the four DRL algorithms to ensure a streamlined, consistent flow of program statements, and uniform usage of variables and data structures in implementation.
+
+
+### 3.4 Performance Evaluation of a DRL Policy
+At the end of each training episode, the DRL policy is evaluated by using it to generate actions for a few episodes and recording the mean and variance of the rewards obtained. The performance of a DRL agent is reflected by:
+- Training reward per episode
+- Evaluation reward mean per episode
+- Evaluation reward variance per episode
+- Average training time per episode (calculated at the end of training)
+
+Students must plot the following against episodes for the studied DRL policy:
+- Moving average training reward
+- Evaluation reward mean
+- Evaluation reward variance
+
+
+### 3.5 Hyperparameter Tuning
+Hyperparameter tuning is critical for optimizing model performance and stability. In DRL, hyperparameters are divided into two groups:
+- **NN hyperparameters**: Control the performance of the neural network (includes network structure).
+- **RL hyperparameters**: Control the performance of the DRL agent, given a fixed neural network.
+
+#### Key Requirements for Hyperparameter Tuning:
+1. Identify key hyperparameters and classify them as "NN hyperparameters" or "RL hyperparameters" (to be documented in the report; see Section 4).
+2. The group must collectively agree on:
+   - A baseline set of NN hyperparameters (`NN-hp-set1`).
+   - A baseline set of RL hyperparameters (`RL-hp-set1`).
+3. Each student runs experiments with their assigned DRL algorithm using `NN-hp-set1` and `RL-hp-set1` to obtain a **baseline policy**.
+4. Evaluate the baseline policy (see Section 3.4) and analyze internal NN weights using TensorBoard (see Section 3.6).
+5. The group collectively designs:
+   - An alternative set of NN hyperparameters (`NN-hp-set2`).
+   - An alternative set of RL hyperparameters (`RL-hp-set2`)—aimed at improving performance over the baseline.
+   - (Document the design considerations in the report; see Section 4.)
+6. Each student runs a second experiment with their assigned DRL algorithm using `NN-hp-set2` and `RL-hp-set2` to obtain an **alternative policy**.
+7. Evaluate the alternative policy (see Section 3.4) and analyze internal NN weights using TensorBoard (see Section 3.6).
+
+> **Note 1**: In practice, hyperparameter tuning uses programmatic methods (e.g., random search, grid search, SMBO). For simplicity, this assignment uses 1-step manual tuning.  
+> **Note 2**: To ensure a fair comparison of policies across the four DRL algorithms, use identical NN/RL hyperparameter values and neural network architectures for all algorithms.
+
+
+### 3.6 Plot Reward Graphs across DRL Algorithms
+Plot the **moving average training reward vs. episodes** for the **better policy** (baseline or alternative) of all four DRL algorithms (Q-Network, Naïve DQN, DQN, DDQN) on the same graph.
+
+
+### 3.7 Visualization with TensorBoard – [Full Code Provided]
+After training and evaluating the DRL algorithms/models, use TensorBoard to inspect collected statistics and neural networks. The callback function (detailed in the skeleton code) stores run-specific information in the log directory, which can be visualized in TensorBoard.
+
+> **Note**: TensorBoard results will differ across policies from different DRL algorithms.
+
+
+### 3.8 Extra Exploration
+Each student may conduct additional exploration or enhancements related to their assigned DRL algorithm. This work should be placed in the **individual section** of the Jupyter notebook and documented in the individual section of the report.
+
+
+## 4 Results and Report Writing
+The experiments will produce two versions of each DRL algorithm:
+- **Baseline DRL policy**: Trained with `NN-hp-set1` and `RL-hp-set1`.
+- **Alternative DRL policy**: Trained with `NN-hp-set2` and `RL-hp-set2`.
+
+Students must collect all required plots (including TensorBoard visualizations) and performance metrics.
+
+
+### 4.1 Evaluation within a DRL Algorithm
+#### 4.1.1 Different NN Structure and Hyperparameters
+1. Tabulate the values of `NN-hp-set1` and `NN-hp-set2`.
+2. Explain the design considerations for:
+   - The neural network structure.
+   - Each hyperparameter value (for both baseline and alternative NNs).
+   - Comment on whether the desired effect of the alternative NN was achieved.
+3. Analyze the baseline and alternative NNs:
+   - Use TensorBoard statistics to comment on loss/error vs. iterations.
+   - Examine and comment on the magnitude of internal parameters/weights across different parts of the NN.
+
+#### 4.1.2 Different DRL Hyperparameters
+1. Tabulate the values of `RL-hp-set1` and `RL-hp-set2`.
+2. Explain the design considerations for each hyperparameter value (for both baseline and alternative DRL policies). Comment on whether the desired effect of the alternative policy was achieved.
+3. Use TensorBoard statistics to comment on the learned policies stored in the NNs.
+4. Manually input specific observations into the NN and comment on the output Q-values.
+5. Include the following in the report:
+   - Plots of moving-average training reward, evaluation reward mean, and evaluation reward variance vs. episodes (from Section 3.4).
+   - Calculated average training time per episode for both policies.
+   - Comment on the observations from these plots and metrics.
+
+
+### 4.2 Evaluation across DRL Algorithms
+#### 4.2.1 Performance of Different DRL Algorithms
+1. Include the graph from Section 3.6 (moving average training reward vs. episodes for the better policy of all four algorithms) in the report.
+2. Compare the performance of the four algorithms in terms of:
+   - Task effectiveness for Cart-Pole.
+   - Speed of convergence.
+   - Stability.
+3. Explain why the algorithms differ in performance, addressing:
+   - How experience replay (Q-Network vs. Naïve DQN) affects performance.
+   - How target networks (Naïve DQN vs. DQN) affect performance.
+   - How decoupling action selection (DQN vs. DDQN) affects performance.
+
+#### 4.2.2 Average Training Time per Episode of Different DRL Algorithms
+1. Tabulate and compare the average training time per episode of the four selected policies (from Section 4.2.1).
+2. Answer the following questions:
+   - Is average training time per episode a good performance metric for DRL algorithms? Explain why or why not.
+   - Which algorithm is computationally more expensive? Is the performance gain worth the cost? Why?
+
+
+### 4.3 Report Writing
+Students must write a **short report (≤ 10 pages)** highlighting their work. The report must include:
+- Reasoning behind the design of neural network architectures and DRL agents.
+- Answers to the questions in Sections 4.1 and 4.2 (keep answers concise and support claims with experimental results/plots).
+- A highlight of any extra efforts (adhere to the page limit).
+- A **Statement of Contributions** at the end.
+
+> **Requirements**:
+> - Cite reference sources (if any)—the reference list does not count toward the 10-page limit.
+> - Do not focus on summarizing/explaining code; prioritize result analysis and observation explanations.
+> - Reasoning without supporting results is considered invalid.
+
+
+## 5 Division of Responsibilities
+The table below summarizes tasks assigned to individual students or the entire group:
+
+| Task | Student 1 | Student 2 | Student 3 | Student 4 |
+|------|-----------|-----------|-----------|-----------|
+| **Jupyter Notebook** | | | | |
+| - Construct Q-Network agent and evaluate performance | ✓ | | | |
+| - Construct Naïve DQN agent and evaluate performance | | ✓ | | |
+| - Construct DQN agent and evaluate performance | | | ✓ | |
+| - Construct DDQN agent and evaluate performance | | | | ✓ |
+| - Design 2 sets of hyperparameters for the four agents # | all | all | all | all |
+| - Implement moving average and other plotting functions | ✓ | | | |
+| - Plot reward vs. episodes of the four DRL agents for comparison | all | all | all | all |
+| - Visualization with TensorBoard | ✓ | ✓ | ✓ | ✓ |
+| **Report** | | | | |
+| - Section 4.1.1 #, 4.1.2 # | ✓ | ✓ | ✓ | ✓ |
+| - Section 4.2.1, 4.2.2 | all | all | all | all |
+| - Reasoning behind NN structure and DRL agent design # | all | all | all | all |
+
+- `all`: Task requires group collaboration.
+- `✓`: Task assigned to the individual student.
+- `#`: Critical task requiring detailed documentation.
+
+> **Extra Work**: Students may write additional code to collect extra experiment results for report analysis. If included, organize code by person and clearly label each student’s work.
+
+
+## 6 Submission and Grading
+### 6.1 Submission
+Groups must submit the following files by **11:59 PM on Saturday, 15 November 2025**:
+1. Completed Jupyter notebook (filename: `EEC4400-Groupxx.ipynb`, where `xx` = group number) with all code, outputs, and results.
+2. Report in PDF format (filename: `EEC4400-Groupxx-Report.pdf`).
+
+Zip both files into a single archive (filename: `EEC4400-Groupxx.zip`) and submit it—only **one submission per group** is required.
+
+> **Note**: Detailed uploading instructions will be provided closer to the deadline.
+
+
+### 6.2 Grading
+- **DDQN Requirement**: DDQN is not covered in class—students must conduct independent research on the topic.
+- **Individual Grading**: Students in the same group may receive different scores. Individual tasks are graded independently (e.g., Student 1’s Q-Network implementation does not affect Student 2’s Naïve DQN grade).
+- **Implementation Expectations**: DRL agent construction requires consideration of real-world problem-solving. Students must use concepts from class and (if needed) additional research to justify their design choices.
+- **Performance Weight**: The performance of DRL agents is not the primary grading factor, but at least some agents must perform reasonably well.
+- **Extra Exploration**: Students may receive additional credit for extra exploration/enhancements related to their assigned task.
+- **Report Focus**: Avoid excessive code summarization—focus on result analysis and explanation of observations.
